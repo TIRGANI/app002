@@ -1,8 +1,20 @@
 <resources>
     <string name="app_name">TestAppV00</string>
     <array name="villes">
-        <item>Rabat</item>
-        <item>Marrakech</item>
-        <item>Fes</item>
+        <!--
+      <item>france</item>
+        <item>Algérie</item>
+        <item>Allemagne</item>
+        <item>Arabie Saoudite</item>
+        <item>Belgique</item>
+        <item>Brésil</item>
+        <item>maroc</item>-->
+        <item>@drawable/france</item>
+        <item>@drawable/belgiq</item>
+        <item>@drawable/alm</item>
+        <item>@drawable/saudiarabia</item>
+        <item>@drawable/belgiq</item>
+        <item>@drawable/brazil</item>
+        <item>@drawable/maroc</item>
     </array>
 </resources>

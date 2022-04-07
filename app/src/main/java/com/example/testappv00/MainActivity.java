@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,7 +28,7 @@ import java.util.List;
 
 import adapter.StarAdapter;
 import adress.Ip;
-import beans.Etudiant;
+import beans.Contact;
 import beans.Star;
 import service.StarService;
 
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RequestQueue requestQueue;
 
 
-    String insertUrllo = "http://"+Ip.ip+":8080/projet01/ws/loadEtudiant.php";
+    String insertUrllo = "http://"+ Ip.ip+":8080/Projet01NemberBook/ws/loadContact.php";
     private Button addbb;
     private RecyclerView recyclerView;
     private StarAdapter starAdapter = null;
@@ -63,12 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(String response) {
                 //Log.d(TAG, response);
-                Type type = new TypeToken<Collection<Etudiant>>() {
+                Type type = new TypeToken<Collection<Contact>>() {
                 }.getType();
-                Collection<Etudiant> etudiant = new Gson().fromJson(response, type);
+                Collection<Contact> contact = new Gson().fromJson(response, type);
                 stars = new ArrayList<>();
                 service = new StarService();
-                for (Etudiant e : etudiant) {
+                for (Contact e : contact) {
 
                     // Log.d("TAG", e.toString());
                     Star s = new Star(e.getNom(), e.getPrenom(), e.getVille(), e.getSexe(), R.mipmap.star, e.getId());

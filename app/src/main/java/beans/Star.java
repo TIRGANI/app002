@@ -3,10 +3,25 @@ package beans;
 public class Star {
     private static int comp;
     private int id;
-    private String name;
+    private String nom;
     private String prenom;
     private String ville;
     private String sexe;
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+    public Star()
+    {
+
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
 
     public String getPrenom() {
         return prenom;
@@ -35,9 +50,9 @@ public class Star {
     private int img;
     private float star;
 
-    public Star(String name,String prenom,String ville,String sexe, int img, float star) {
+    public Star(String nom,String prenom,String ville,String sexe, int img, float star) {
         this.id = ++comp;
-        this.name = name;
+        this.nom = nom;
         this.img = img;
         this.star = 5;
         this.ville = ville;
@@ -54,11 +69,11 @@ public class Star {
     }
 
     public String getName() {
-        return name;
+        return nom;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String nom) {
+        this.nom = nom;
     }
 
     public int getImg() {

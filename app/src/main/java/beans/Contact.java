@@ -1,21 +1,32 @@
 package beans;
 
-public class Etudiant {
+public class Contact {
     private int id;
     private String nom;
     private String prenom;
     private String ville;
     private String sexe;
+    private String phone ;
     private int cpt =0;
-    public Etudiant() {
+    public Contact() {
     }
-    public Etudiant(String nom, String prenom, String ville, String sexe) {
+    public Contact(String nom, String prenom, String ville, String sexe, String phone) {
         this.id = ++cpt;
         this.nom = nom;
         this.prenom = prenom;
         this.ville = ville;
         this.sexe = sexe;
+        this.phone = phone;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public int getId() {
         return id;
     }
@@ -49,12 +60,13 @@ public class Etudiant {
 
     @Override
     public String toString() {
-        return "Etudiant{" +
+        return "Contact{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", ville='" + ville + '\'' +
                 ", sexe='" + sexe + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }

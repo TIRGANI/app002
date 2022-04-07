@@ -68,7 +68,7 @@ public class StarAdapter extends RecyclerView.Adapter<StarAdapter.StarViewHolder
                 final ImageView img = popup.findViewById(R.id.img);
                 final RatingBar bar = popup.findViewById(R.id.ratingBar);
                 final TextView idss = popup.findViewById(R.id.idss);
-                final RadioButton m = v.findViewById(R.id.m);
+
                 final TextView nom = v.findViewById(R.id.name);
                 final TextView prenom = v.findViewById(R.id.prenom);
                 final TextView ville = v.findViewById(R.id.ville);
