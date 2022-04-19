@@ -7,10 +7,14 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,12 +53,15 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
     private RequestQueue requestQueue;
     private Spinner s;
     private CustomAdapter ad;
-    private String[] names = {"(004)", "(005)", "(006)", "(007)", "(060)"};
+    private LinearLayout blo;
+    private TextView tcontact;
+    private TextView tpayee;
+    private TextView tnumero;
+    private static int cpt = 0;
+    private String[] names = {"+33", "+49", "+32", "+52", "060"};
     private int[] images = {R.drawable.france, R.drawable.alm, R.drawable.belgiq, R.drawable.brazil, R.drawable.maroc};
     private String selpayname = null;
-    String insertUrllo = "http://" + Ip.ip + ":8080/Projet01NemberBook/ws/loadContact.php";
-    String insertUrlcr = "http://" + Ip.ip + ":8080/Projet01NemberBook/ws/createContact.php";
-    String insertUrlde = "http://" + Ip.ip + ":8080/Projet01NemberBook/ws/dropContact.php";
+    String insertUrllo = "http://" + Ip.ip + ":8088/contact";//load
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -69,7 +76,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
         s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // Toast.makeText(getApplicationContext(),names[i],Toast.LENGTH_LONG).show();
+
                 selpayname = names[i];
             }
 
@@ -79,7 +86,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
             }
         });
         //
-
+        blo = findViewById(R.id.blo);
         nom = (EditText) findViewById(R.id.nom);
         txtnom = findViewById(R.id.txtnom);
         txtphone = findViewById(R.id.txtphone);
@@ -95,6 +102,9 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
         nom.setVisibility(View.GONE);
         phone.setVisibility(View.GONE);
         txtphone.setVisibility(View.GONE);
+        blo.setVisibility(View.GONE);
+
+
         recupContact();
     }
 
@@ -111,47 +121,22 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
             while (cursor.moveToNext() == true) {
                 @SuppressLint("Range") String nameC = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
                 @SuppressLint("Range") String phoneC = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                //afficher resultat
-                // txtkk.setText(nameC + " : " + phoneC);
-                // *****************************delet all***************************
-            /*    requestQueue = Volley.newRequestQueue(getApplicationContext());
-                StringRequest request = new StringRequest(Request.Method.POST,
-                        insertUrlde, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Type type = new TypeToken<Collection<Star>>(){}.getType();
-                        Collection<Star> etudiants = new Gson().fromJson(response, type);
-                        Toast.makeText(AddEtudiant.this, "db updated", Toast.LENGTH_SHORT).show();
 
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-
-
-                        return null;
-
-                    }
-                };
-                requestQueue.add(request);*/
-
-//**********************************ajouter list contact a la BD*********************************
+//**********ajouter list contact a la BD***************************
                 requestQueue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest request = new StringRequest(Request.Method.POST,
-                        insertUrlcr, new Response.Listener<String>() {
+                        insertUrllo, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Type type = new TypeToken<Collection<Star>>() {
-                        }.getType();
-                        Collection<Star> etudiants = new Gson().fromJson(response, type);
-                        Toast.makeText(AddEtudiant.this, "Bien Enregistrer", Toast.LENGTH_SHORT).show();
 
+                        afficherToast();
 
+                    }
+
+                    private void afficherToast() {
+                        Log.d("response ****M%MMM%%", "****");
+                        Toast toast = Toast.makeText(getApplicationContext(), "message", Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -162,12 +147,16 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
                     protected Map<String, String> getParams() throws AuthFailureError {
 
                         HashMap<String, String> params = new HashMap<String, String>();
+
+                        params.put("id", ++cpt + "");
                         params.put("nom", nameC);
                         params.put("prenom", "null");
                         params.put("ville", "null");
                         params.put("sexe", "null");
                         params.put("phone", phoneC);
+
                         return params;
+
 
                     }
                 };
@@ -181,29 +170,29 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    public boolean verpay(String indicatif,String phone) {
-        String[] indica = phone.split(" ");
-        if (indica[0].equals(indicatif))
-        {
+    public boolean verpay(String indicatif, String phone) {
+        String indica = phone.substring(0, 3);
+        if (indica.equals(indicatif)) {
             return true;
         }
         return false;
     }
 
     public String payy(String num) {
-        String[] indica = num.split(" ");
+        String indica = num.substring(0, 3);
 
-        if (indica[0].equals("(060)")) {
+
+        if (indica.equals("060") || indica.equals("070") ) {
             return "Maroc";
-        } else if (indica[0].equals("(004)")) {
+        } else if (indica.equals("+33")) {
             return "France";
-        } else if (indica[0].equals("(005)")) {
+        } else if (indica.equals("+49")) {
             return "Allemagne";
-        } else if (indica[0].equals("(006)")) {
+        } else if (indica.equals("+32")) {
             return "Belgique";
-        } else if (indica[0].equals("(007)")) {
+        } else if (indica.equals("+52")) {
             return "Brésil";
-        } else return indica[0].toString();
+        } else return indica;
     }
 
     @Override
@@ -213,18 +202,20 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
             nom.setVisibility(View.GONE);
             phone.setVisibility(View.VISIBLE);
             txtphone.setVisibility(View.VISIBLE);
+            blo.setVisibility(View.VISIBLE);
         }
         if (v == Rnom) {
             txtphone.setVisibility(View.GONE);
             phone.setVisibility(View.GONE);
             nom.setVisibility(View.VISIBLE);
             txtnom.setVisibility(View.VISIBLE);
+            blo.setVisibility(View.VISIBLE);
         }
 
         if (v == add) {
 
             requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest request = new StringRequest(Request.Method.POST,
+            StringRequest request = new StringRequest(Request.Method.GET,
                     insertUrllo, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -234,18 +225,32 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
                     }.getType();
                     Collection<Star> contacts = new Gson().fromJson(response, type);
                     //check phone
+
                     if (Rphone.isChecked()) {
                         boolean check01 = false;
                         nom.setText("");
 
                         for (Star e : contacts) {
                             if (phone.getText().toString().equals(e.getPhone())) {
-                                Toast toast = Toast.makeText(AddEtudiant.this, "verification payée  : " +verpay(selpayname.toString(),e.getPhone()) , Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(AddEtudiant.this, "verification payée  : " + verpay(selpayname, e.getPhone()), Toast.LENGTH_SHORT);
                                 toast.show();
-                                if (verpay(selpayname.toString(),e.getPhone())) {
 
-                                    toast = Toast.makeText(AddEtudiant.this, "Le numéro  : " + phone.getText().toString() + " u le nom :  " + e.getName() + " payee :" + payy(e.getPhone()), Toast.LENGTH_SHORT);
-                                    toast.show();
+                                if (verpay(selpayname, e.getPhone())) {
+
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.toast_layout));
+                                    final Toast to = new Toast(getApplicationContext());
+
+                                    to.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                                    to.setDuration(Toast.LENGTH_LONG);
+                                    to.setView(layout);
+                                    tcontact = layout.findViewById(R.id.tcontact);
+                                    tpayee = layout.findViewById(R.id.tpayee);
+                                    tnumero = layout.findViewById(R.id.tnumero);
+                                    tcontact.setText(e.getName());
+                                    tpayee.setText(payy(e.getPhone()));
+                                    tnumero.setText(e.getPhone());
+                                    to.show();
                                     check01 = true;
                                     break;
                                 }
@@ -267,22 +272,56 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
                         for (Star e : contacts) {
 
                             if (nom.getText().toString().equals(e.getName())) {
-                                Toast toast = Toast.makeText(AddEtudiant.this, "verification payée  : " +verpay(selpayname.toString(),e.getPhone()) , Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(AddEtudiant.this, "verification payée  : " + verpay(selpayname.toString(), e.getPhone()), Toast.LENGTH_SHORT);
                                 toast.show();
-                                if (verpay(selpayname.toString(),e.getPhone())) {
-                                    toast = Toast.makeText(AddEtudiant.this, "Contact : " + nom.getText().toString() + " u le numéro :  " + e.getPhone() + " payee :" + payy(e.getPhone()), Toast.LENGTH_SHORT);
-                                    toast.show();
+                                if (verpay(selpayname, e.getPhone())) {
+                                    //
+
+
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.toast_layout));
+                                    final Toast to = new Toast(getApplicationContext());
+
+                                    to.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                                    to.setDuration(Toast.LENGTH_LONG);
+                                    to.setView(layout);
+                                    tcontact = layout.findViewById(R.id.tcontact);
+                                    tpayee = layout.findViewById(R.id.tpayee);
+                                    tnumero = layout.findViewById(R.id.tnumero);
+                                    tcontact.setText(nom.getText().toString());
+                                    tpayee.setText(payy(e.getPhone()));
+                                    tnumero.setText(e.getPhone());
+                                    to.show();
+
+
                                     break;
                                 }
                             }
 
-                        }
-                        if (phone.equals("")) {
-                            if (check == false) {
-                                Toast toast = Toast.makeText(AddEtudiant.this, "Le numéro  : " + phone.getText().toString() + " est introuvable", Toast.LENGTH_SHORT);
-                                toast.show();
+
+                            if (Rnom.equals("")) {
+                                if (check == false) {
+
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.toast_layout));
+                                    final Toast to = new Toast(getApplicationContext());
+
+                                    to.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                                    to.setDuration(Toast.LENGTH_SHORT);
+                                    to.setView(layout);
+
+                                    tcontact = layout.findViewById(R.id.tcontact);
+                                    tpayee = layout.findViewById(R.id.tpayee);
+                                    tnumero = layout.findViewById(R.id.tnumero);
+                                    tcontact.setText(nom.getText().toString());
+                                    tpayee.setText(payy(e.getPhone()));
+                                    tnumero.setText(e.getPhone());
+                                    to.show();
+
+                                }
                             }
                         }
+
 
                     }
                 }

@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/NumberBookAppDB/app/src/main/res/drawable/background.xml" value="0.1435" />
+        <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/NumberBookAppDB/app/src/main/res/font/font.xml" value="0.20572916666666666" />
+        <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/NumberBookAppDB/app/src/main/res/layout/activity_add_etudiant.xml" value="0.25" />
+        <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/NumberBookAppDB/app/src/main/res/layout/custom_toast.xml" value="0.22" />
+        <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/NumberBookAppDB/app/src/main/res/layout/font.xml" value="0.17552083333333332" />
         <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/TestAppV00/app/src/main/res/layout/activity_add_etudiant.xml" value="0.16666666666666666" />
         <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/TestAppV00/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
         <entry key="..\:/2_EMSI/4-Eme_annee/S8/8-Programation_mobile/Projet En Coure/TestAppV00/app/src/main/res/layout/star_edit_item.xml" value="0.1" />

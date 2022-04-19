@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RequestQueue requestQueue;
 
 
-    String insertUrllo = "http://"+ Ip.ip+":8080/Projet01NemberBook/ws/loadContact.php";
+    String insertUrllo = "http://"+ Ip.ip+":8088/Projet01NemberBook/ws/loadContact.php";
     private Button addbb;
     private RecyclerView recyclerView;
     private StarAdapter starAdapter = null;
